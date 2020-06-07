@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  app:
+    image: node:12.16.3-alpine
+    tty: true
+    working_dir: /app
+    volumes:
+      - .:/app
+    user: "${UID}:${GID}"
+    ports:
+      - "4100:4100"
