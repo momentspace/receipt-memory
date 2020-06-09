@@ -65,9 +65,10 @@ export default {
     },
     async initialize() {
       const url = `http://${location.hostname}:3100/api/v1/images/`
-      const ret = await this.$axios.$get(url);
-      console.log(ret);
-      this.images = ret;
+      this.$axios.$get(url).then((ret) => {
+        console.log(ret);
+        this.images = ret;
+      })
     },
   }
 }
