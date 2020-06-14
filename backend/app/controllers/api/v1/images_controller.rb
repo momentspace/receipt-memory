@@ -59,6 +59,7 @@ module Api
           json = @image.to_json
           if @image.data.attached?
             json = JSON.parse(json).merge({
+              url_thumb: url_for(@image.data.variant(resize: "256x256")),
               url: url_for(@image.data)
             })
           end
