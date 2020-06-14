@@ -37,7 +37,11 @@ module Api
     
       # DELETE /images/1
       def destroy
-        @image.destroy
+        if @image.destroy
+          render json: image_json
+        else
+          render json: @image.errors, status: :unprocessable_entity
+        end
       end
     
       private

@@ -13,7 +13,8 @@
         >
           <ReceiptImage 
             v-bind=receipt
-            v-on:click=imageClicked
+            @click=imageClicked
+            :deleteAction=deleteAction
           />
         </v-card>
       </v-col>
@@ -29,7 +30,7 @@
 import ReceiptImage from "@/components/receipt_image";
 import ImagePopup from '@/components/image_popup';
 export default {
-  props: ["receipts"],
+  props: ["receipts", "deleteAction"],
   components: {
     ReceiptImage,
     ImagePopup 

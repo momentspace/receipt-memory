@@ -45,13 +45,15 @@
 
 
       <v-card-actions>
-        <v-btn>Edit</v-btn>
-        <v-spacer></v-spacer>
-        <v-btn icon>
-          <v-icon>mdi-heart</v-icon>
+        <v-btn>
+          Edit
         </v-btn>
-        <v-btn icon>
-          <v-icon>mdi-share-variant</v-icon>
+        <v-spacer></v-spacer>
+        <v-btn
+          icon
+          @click=deleteClick(id)
+        >
+          <v-icon>mdi-trash-can-outline</v-icon>
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -66,7 +68,7 @@ export default {
   },
   components: {
   },
-  props: ['id', 'url', 'url_thumb', 'description'],
+  props: ['id', 'url', 'url_thumb', 'description', 'deleteAction'],
   data() {
     return {
       isActive: false,
@@ -75,6 +77,10 @@ export default {
   mounted: function() {
   },
   methods: {
+    async deleteClick(id) {
+      const ret = await this.$confirm('指定ファイルを削除しますよ？');
+      if (ret) this.deleteAction(id)
+    }
   }
 }
 </script>

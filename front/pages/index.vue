@@ -14,6 +14,7 @@
         maxSize=5000000
       />
       <ReceiptList
+        :deleteAction="deleteImage"
         v-bind:receipts=images
       />
     </v-container>
@@ -53,6 +54,15 @@ export default {
       data.append("image[description]", description);
       data.append('image[data]', file);
       this.uploadImage(data)
+    },
+    deleteImage(id) {
+      console.log("delete image");
+      const url = `http://${location.hostname}:3100/api/v1/images/${id}`
+      this.$axios.$delete(url).then((ret) => {
+        this.images.forEach((e, i) => {
+          if (e.id === ret.id) this.images.splice(i, 1)
+        });
+      })
     },
     async uploadImage(data) {
       const config = {
