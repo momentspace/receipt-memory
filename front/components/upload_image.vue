@@ -3,7 +3,7 @@
     <v-col>
       <v-card>
         <v-card-title class="headline">
-          Image Upload Form
+          {{titleText}}
         </v-card-title>
         <v-form
           ref="form"
@@ -54,7 +54,7 @@ export default {
   // },
   components: {
   },
-  props: ["uploadAction", "maxSize", ],
+  props: ["uploadAction", "maxSize", "title"],
   data() {
     return {
       valid: false,
@@ -68,6 +68,11 @@ export default {
         }
       ],
       description: "",
+    }
+  },
+  computed: {
+    titleText: function() {
+      return !this.title ? "Image Upload Form" : this.title
     }
   },
   mounted: function() {
