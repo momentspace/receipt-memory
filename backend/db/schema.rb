@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_24_145950) do
+ActiveRecord::Schema.define(version: 2020_06_23_160131) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -39,5 +39,35 @@ ActiveRecord::Schema.define(version: 2020_05_24_145950) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "receipts", force: :cascade do |t|
+    t.string "name"
+    t.integer "category"
+    t.integer "shop_id", null: false
+    t.integer "editor_id", null: false
+    t.integer "owner_id", null: false
+    t.datetime "purchased_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["editor_id"], name: "index_receipts_on_editor_id"
+    t.index ["owner_id"], name: "index_receipts_on_owner_id"
+    t.index ["shop_id"], name: "index_receipts_on_shop_id"
+  end
+
+  create_table "shops", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "receipts", "shops"
+  add_foreign_key "receipts", "users", column: "editor_id"
+  add_foreign_key "receipts", "users", column: "owner_id"
 end

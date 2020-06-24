@@ -1,0 +1,17 @@
+ja:
+  activerecord:
+    models:
+      receipt: レシート
+    attributes:
+      receipt:
+        other: 雑費・その他
+        food: 食費
+        daily_necessities: 日用品費
+        amusement: 娯楽費
+        clothing: 衣服費
+        medical: 医療費
+        education: 教育費
+        travel: 交通費
+        communication: 通信費
+        lessons: 習い事費
+    
