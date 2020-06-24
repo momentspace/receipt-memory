@@ -51,7 +51,7 @@ export default {
   methods: {
     upload(formdata) {
       let data = new FormData();
-      data.append("receipt[category]", 0);
+      data.append("receipt[category]", "other");
       data.append("receipt[shop_id]", 1);
       data.append("receipt[editor_id]", 1);
       data.append("receipt[owner_id]", 1);

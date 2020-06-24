@@ -35,7 +35,7 @@
             <v-btn
               :disabled="!valid"
               color="primary"
-              @click="uploadAction(formdata)"
+              @click="upload"
             >
               upload
             </v-btn>
@@ -81,7 +81,7 @@ export default {
   methods: {
     upload() {
       let result = this.$refs.form.validate();
-      formdata = {description: this.description, file: this.file}
+      const formdata = {description: this.description, file: this.file}
       this.uploadAction(formdata);
     },
     rangeSize(size) {
