@@ -9,29 +9,29 @@
       sm-10
       xs-12
     >
-      <UploadImage
+      <UploadReceipt
         :uploadAction="upload"
         maxSize=5000000
       />
       <ReceiptList
-        :deleteAction="deleteImage"
-        v-bind:receipts=images
+        :deleteAction="deleteReceipt"
+        v-bind:receipts=receipts
       />
     </v-container>
   </v-layout>
 </template>
 
 <script>
-import UploadImage from "@/components/upload_image.vue";
+import UploadReceipt from "@/components/upload_receipt.vue";
 import ReceiptList from "@/components/receipt_list.vue";
 export default {
   components: {
-    UploadImage,
+    UploadReceipt,
     ReceiptList
   },
   data() {
     return {
-      images: [],
+      receipts: [],
       valid: false,
       file: null,
       fileRules: [
@@ -49,35 +49,40 @@ export default {
     this.initialize();
   },
   methods: {
-    upload(description, file) {
+    upload(formdata) {
       let data = new FormData();
-      data.append("image[description]", description);
-      data.append('image[data]', file);
-      this.uploadImage(data)
+      data.append("receipt[category]", 0);
+      data.append("receipt[shop_id]", 1);
+      data.append("receipt[editor_id]", 1);
+      data.append("receipt[owner_id]", 1);
+      data.append("receipt[purchased_at]", new Date()); 
+      data.append("receipt[name]", formdata.description);
+      data.append('receipt[image]', formdata.file);
+      this.uploadReceipt(data)
     },
-    deleteImage(id) {
-      console.log("delete image");
-      const url = `http://${location.hostname}:3100/api/v1/images/${id}`
+    deleteReceipt(id) {
+      console.log("delete receipt");
+      const url = `http://${location.hostname}:3100/api/v1/receipts/${id}`
       this.$axios.$delete(url).then((ret) => {
-        this.images.forEach((e, i) => {
-          if (e.id === ret.id) this.images.splice(i, 1)
+        this.receipts.forEach((e, i) => {
+          if (e.id === ret.id) this.receipts.splice(i, 1)
         });
       })
     },
-    async uploadImage(data) {
+    async uploadReceipt(data) {
       const config = {
         headers: { contentType: "multipart/form-data" }
       }
-      const url = `http://${location.hostname}:3100/api/v1/images/`
+      const url = `http://${location.hostname}:3100/api/v1/receipts/`
       const ret = await this.$axios.$post(url, data, config);
-      this.images.unshift(ret)
+      this.receipts.unshift(ret)
       console.log(ret);
     },
     async initialize() {
-      const url = `http://${location.hostname}:3100/api/v1/images/`
+      const url = `http://${location.hostname}:3100/api/v1/receipts/`
       this.$axios.$get(url).then((ret) => {
         console.log(ret);
-        this.images = ret;
+        this.receipts = ret;
       })
     },
   }

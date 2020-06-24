@@ -35,7 +35,7 @@
             <v-btn
               :disabled="!valid"
               color="primary"
-              @click="uploadAction(description, file)"
+              @click="uploadAction(formdata)"
             >
               upload
             </v-btn>
@@ -72,7 +72,7 @@ export default {
   },
   computed: {
     titleText: function() {
-      return !this.title ? "Image Upload Form" : this.title
+      return !this.title ? "Receipt Upload Form" : this.title
     }
   },
   mounted: function() {
@@ -81,7 +81,8 @@ export default {
   methods: {
     upload() {
       let result = this.$refs.form.validate();
-      this.uploadAction(this.description, this.file);
+      formdata = {description: this.description, file: this.file}
+      this.uploadAction(formdata);
     },
     rangeSize(size) {
       return size < this.maxSize;
