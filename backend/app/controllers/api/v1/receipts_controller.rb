@@ -15,6 +15,11 @@ module Api
         render json: receipt_json
       end
     
+      # GET /receipts/category
+      def category
+        render json: { category: Receipt.categories.map {|k, _| [I18n.t(k), k] }.to_h }
+      end
+
       # POST /receipts
       def create
         @receipt = Receipt.new(receipt_params)

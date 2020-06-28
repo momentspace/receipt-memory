@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :images
       resources :receipts
+      match "categories", controller: :receipts, action: :category, via: :get
       resources :users
       resources :shops
     end
