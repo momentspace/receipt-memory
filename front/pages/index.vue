@@ -12,6 +12,7 @@
       <UploadReceipt
         :uploadAction="upload"
         maxSize=5000000
+        :categories=categories
       />
       <ReceiptList
         :deleteAction="deleteReceipt"
@@ -42,6 +43,7 @@ export default {
           return false;
         }
       ],
+      categories: [],
     }
   },
   mounted: function() {
@@ -51,11 +53,11 @@ export default {
   methods: {
     upload(formdata) {
       let data = new FormData();
-      data.append("receipt[category]", "other");
+      data.append("receipt[category]", formdata.selectItem);
       data.append("receipt[shop_id]", 1);
       data.append("receipt[editor_id]", 1);
       data.append("receipt[owner_id]", 1);
-      data.append("receipt[purchased_at]", new Date()); 
+      data.append("receipt[purchased_at]", formdata.purchasedAt); 
       data.append("receipt[name]", formdata.description);
       data.append('receipt[image]', formdata.file);
       this.uploadReceipt(data)
@@ -79,10 +81,20 @@ export default {
       console.log(ret);
     },
     async initialize() {
-      const url = `http://${location.hostname}:3100/api/v1/receipts/`
-      this.$axios.$get(url).then((ret) => {
+      const urlReceipts = `http://${location.hostname}:3100/api/v1/receipts/`
+      this.$axios.$get(urlReceipts).then((ret) => {
         console.log(ret);
         this.receipts = ret;
+      })
+      const url = `http://${location.hostname}:3100/api/v1/categories`
+      this.$axios.$get(url).then((ret) => {
+        console.log(ret['category']);
+        // 形式変換
+        const items = Object.entries(ret['category']).map(([key, value]) => {
+          return {text: key, value: value}
+        });
+        console.log(items);
+        this.categories = items;
       })
     },
   }
