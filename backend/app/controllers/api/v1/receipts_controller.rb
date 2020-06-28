@@ -5,7 +5,7 @@ module Api
 
       # GET /receipts
       def index
-        @receipts = Receipt.all
+        @receipts = Receipt.all.order(id: "DESC")
       
         render json: receipts_json
       end
