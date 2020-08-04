@@ -9,26 +9,33 @@
       sm-10
       xs-12
     >
-      <UploadReceipt
-        :uploadAction="upload"
+      <ReceiptForm
+        v-model=visible
+        :commitAction="upload"
         maxSize=5000000
         :categories=categories
+        :receipt=target
       />
       <ReceiptList
         :deleteAction="deleteReceipt"
         v-bind:receipts=receipts
+      />
+      <AdditionalBtn
+        :additionalClicked="addReceipt"
       />
     </v-container>
   </v-layout>
 </template>
 
 <script>
-import UploadReceipt from "@/components/upload_receipt.vue";
+import ReceiptForm from "@/components/receipt_form.vue";
 import ReceiptList from "@/components/receipt_list.vue";
+import AdditionalBtn from "@/components/additional_btn.vue";
 export default {
   components: {
-    UploadReceipt,
-    ReceiptList
+    ReceiptForm,
+    ReceiptList,
+    AdditionalBtn
   },
   data() {
     return {
@@ -44,6 +51,8 @@ export default {
         }
       ],
       categories: [],
+      visible: false,
+      target: null,
     }
   },
   mounted: function() {
@@ -53,14 +62,23 @@ export default {
   methods: {
     upload(formdata) {
       let data = new FormData();
-      data.append("receipt[category]", formdata.selectItem);
+      data.append("receipt[category]", formdata.category);
       data.append("receipt[shop_id]", 1);
       data.append("receipt[editor_id]", 1);
       data.append("receipt[owner_id]", 1);
-      data.append("receipt[purchased_at]", formdata.purchasedAt); 
+      data.append("receipt[purchased_at]", formdata.purchased_at); 
       data.append("receipt[name]", formdata.description);
       data.append('receipt[image]', formdata.file);
       this.uploadReceipt(data)
+    },
+    addReceipt() {
+      console.log("addReceipt");
+      this.target = null;
+      this.visible = true;
+    },
+    editReceipt() {
+      console.log("editReceipt");
+      this.visible = true;
     },
     deleteReceipt(id) {
       console.log("delete receipt");
@@ -78,6 +96,7 @@ export default {
       const url = `http://${location.hostname}:3100/api/v1/receipts/`
       const ret = await this.$axios.$post(url, data, config);
       this.receipts.unshift(ret)
+      console.log("updated")
       console.log(ret);
     },
     async initialize() {
