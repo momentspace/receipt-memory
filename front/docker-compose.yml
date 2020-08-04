@@ -5,6 +5,7 @@ services:
     image: node:12.16.3-alpine
     tty: true
     working_dir: /app
+    command: npm run dev
     volumes:
       - .:/app
     user: "${UID}:${GID}"
