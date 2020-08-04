@@ -75,6 +75,9 @@ module Api
           jsons = []
           @receipts.each do |receipt|
             json = JSON.parse(receipt.to_json)
+            json.merge!({
+              category_text: I18n.t(receipt.category)
+            })
             if receipt.image.attached?
               json.merge!({
                 url_thumb: url_for(receipt.image.variant(resize: "256x256")),
