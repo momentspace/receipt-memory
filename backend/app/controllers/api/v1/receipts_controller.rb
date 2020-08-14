@@ -48,11 +48,20 @@ module Api
           render json: @receipt.errors, status: :unprocessable_entity
         end
       end
+
+      # POST /receipts/ocr
+      def ocr
+        render json: { summary: Vision.ocr(image_params) }
+      end
     
       private
         # Use callbacks to share common setup or constraints between actions.
         def set_receipt
           @receipt = Receipt.find(params[:id])
+        end
+
+        def image_params
+          params.require(:receipt).permit(:image)
         end
       
         # Only allow a trusted parameter "white list" through.
