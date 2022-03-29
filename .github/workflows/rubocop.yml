@@ -9,8 +9,8 @@ jobs:
       with:
         ruby-version: 2.6.6
     - run: |
-      gem install bundler
-      bundle install
+        gem install bundler
+        bundle install
       working-directory: ./backend
     - name: Setup reviewdog
       run: |
