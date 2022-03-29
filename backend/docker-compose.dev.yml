@@ -3,6 +3,8 @@ services:
   app:
     image: ruby:2.6.6
     volumes:
+      - app-bundle:/app/vendor/bundle
+      - app-node_module:/app/node_module
       - ./:/app
     working_dir: /app
     tty: true
@@ -11,6 +13,11 @@ services:
     user: "${UID}:${GID}"
     ports:
       - 3100:3000
+  db:
+    image: postgres:14-alpine
+    restart: always
+    volumes:
+      - db-data:/var/lib/postgresql/data
   https-portal:
     image: steveltn/https-portal:1
     ports:
@@ -22,3 +29,7 @@ services:
       # STAGE: 'production' # Don't use production until staging works
       # FORCE_RENEW: 'true'
 
+volumes:
+  app-bundle:
+  app-node_module:
+  db-data:
