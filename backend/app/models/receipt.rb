@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class Receipt < ApplicationRecord
   has_one_attached :image
   belongs_to :shop
   belongs_to :editor, class_name: 'User', foreign_key: 'editor_id'
-  belongs_to :owner, class_name: 'User', foreign_key: 'owner_id' 
+  belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
 
   enum category: {
     other: 0,
@@ -14,6 +16,6 @@ class Receipt < ApplicationRecord
     education: 6,
     travel: 7,
     communication: 8,
-    lessons: 9,
+    lessons: 9
   }
 end

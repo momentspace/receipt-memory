@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class ShopsControllerTest < ActionDispatch::IntegrationTest
@@ -5,12 +7,12 @@ class ShopsControllerTest < ActionDispatch::IntegrationTest
     @shop = shops(:one)
   end
 
-  test "should get index" do
+  test 'should get index' do
     get shops_url, as: :json
     assert_response :success
   end
 
-  test "should create shop" do
+  test 'should create shop' do
     assert_difference('Shop.count') do
       post shops_url, params: { shop: { name: @shop.name } }, as: :json
     end
@@ -18,17 +20,17 @@ class ShopsControllerTest < ActionDispatch::IntegrationTest
     assert_response 201
   end
 
-  test "should show shop" do
+  test 'should show shop' do
     get shop_url(@shop), as: :json
     assert_response :success
   end
 
-  test "should update shop" do
+  test 'should update shop' do
     patch shop_url(@shop), params: { shop: { name: @shop.name } }, as: :json
     assert_response 200
   end
 
-  test "should destroy shop" do
+  test 'should destroy shop' do
     assert_difference('Shop.count', -1) do
       delete shop_url(@shop), as: :json
     end
